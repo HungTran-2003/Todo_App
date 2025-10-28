@@ -79,36 +79,31 @@ class HomeViewModel: ViewModel {
             sections[0].items.remove(at: indexPath.row)
             sections[1].items.append(cellVM)
         }
-        
+        isLoading.accept(false)
         self.sections.accept(sections)
     }
-//
-//    func deleteTask(task: Tasks){
-//        isLoading.accept(true)
-//        Task{
-//            do {
-//                try await TaskService.share.deleteTask(task: task)
-//                if let index = taskComplete.firstIndex(where: {$0.id == task.id}) {
-//                    taskComplete.remove(at: index)
-//                }
-//                
-//                if let index = taskTodo.firstIndex(where: {$0.id == task.id}) {
-//                    taskTodo.remove(at: index)
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self.isLoading.accept(false)
-//                    self.success.accept("Delete Task successfully")
-//                    self.updateData()
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    self.isLoading.accept(false)
-//                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
-//                }
-//            }
-//        }
-//    }
-//    
+
+    func deleteTask(taskViewModel: TodoItemViewModel, indexPath: IndexPath){
+        isLoading.accept(true)
+        Task{
+            do {
+                var sections = self.sections.value
+                try await TaskService.share.deleteTask(task: taskViewModel.item)
+                sections[indexPath.section].items.remove(at: indexPath.row)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoading.accept(false)
+                    self.success.accept("Delete successful")
+                    self.sections.accept(sections)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isLoading.accept(false)
+                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
+                }
+            }
+        }
+    }
+    
 
 }

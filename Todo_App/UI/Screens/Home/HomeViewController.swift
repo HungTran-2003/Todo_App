@@ -84,6 +84,7 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
                             buttonTitles: ["Cancel", "Yes"]
                         ) { index in
                             if index == 1 {
+                                self.viewModel.isLoading.accept(true)
                                 cellViewModel.updateTask(isCompleteBefore: cellViewModel.item.isComplete, indexPath: indexPath)
                             }
                         }
@@ -164,6 +165,8 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
 
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isLoading.bind(to: self.isLoading).disposed(by: disposeBag)
 
     }
 
@@ -180,11 +183,11 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
         if indexPath.section == 0 {
             self.showAlert(title: "Delete Task", message: "This task has not been completed. Are you sure you want to delete it?", buttonTitles: ["Cancel", "Yes"]){ index in
                 if index == 1 {
-//                    self.viewModel.deleteTask(task: item)
+                    self.viewModel.deleteTask(taskViewModel: item, indexPath: indexPath)
                 }
             }
         } else {
-//            self.viewModel.deleteTask(task: item)
+            self.viewModel.deleteTask(taskViewModel: item, indexPath: indexPath)
         }
     }
 }
