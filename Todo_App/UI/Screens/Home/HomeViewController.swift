@@ -144,27 +144,6 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
     }
 
     func bindViewModel() {
-        viewModel.error
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] error in
-                guard let self = self else { return }
-                guard let error = error else { return }
-
-                self.showAlert(title: error.title, message: error.message)
-                print(error.message)
-
-            })
-            .disposed(by: disposeBag)
-
-        viewModel.success
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] success in
-                guard let self = self else { return }
-                guard let success = success else { return }
-                self.showAlert(title: "Success", message: success)
-
-            })
-            .disposed(by: disposeBag)
         
         viewModel.isLoading.bind(to: self.isLoading).disposed(by: disposeBag)
 

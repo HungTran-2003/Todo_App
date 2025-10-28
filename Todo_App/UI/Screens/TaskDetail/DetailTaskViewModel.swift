@@ -20,10 +20,6 @@ class DetailTaskViewModel: ViewModel {
     let time = BehaviorRelay<Date>(value: Date())
     let notes = BehaviorRelay(value: "")
     
-    let error = BehaviorRelay<Errors?>(value: nil)
-    
-    let success = BehaviorRelay<String?>(value: nil)
-    
     let isLoading = BehaviorRelay(value: false)
     
     let dataOutput = BehaviorRelay<Tasks?>(value: nil)
@@ -71,7 +67,9 @@ class DetailTaskViewModel: ViewModel {
                 let data = try await TaskService.share.addTask(task: task)
                 DispatchQueue.main.async {
                     self.dataOutput.accept(data)
-                    self.success.accept("Added Task successfully")
+                    self.navigator.showAlert(title: "Success", message: "Added Task successfully") { _ in
+                        self.navigator.backHome()
+                    }
                     
                 }
             } catch {
@@ -99,12 +97,14 @@ class DetailTaskViewModel: ViewModel {
                 let data = try await TaskService.share.updateTask(task: task)
                 DispatchQueue.main.async {
                     self.dataOutput.accept(data)
-                    self.success.accept("Update Task successfully")
+                    self.navigator.showAlert(title: "Success", message: "Update Task successfully") { _ in
+                        self.navigator.backHome()
+                    }
                     
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
+                    self.navigator.showErrorAlert()
                 }
             }
         }

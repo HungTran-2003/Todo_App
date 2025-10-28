@@ -34,15 +34,6 @@ class SplashViewController : ViewController<SplashViewModel, SplashNavigator> {
 
         
         viewModel.isLoading.bind(to: activityIndicator.rx.isAnimating) .disposed(by: disposeBag)
-        
-        viewModel.errorMessage
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] message in
-                guard let self = self else {return}
-                self.showAlert(title: "Error", message: message)
-                
-            })
-            .disposed(by: disposeBag)
     }
     
     

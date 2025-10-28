@@ -13,14 +13,11 @@ import Supabase
 
 class SplashViewModel : ViewModel {
     
-    private let uuid = UserManager.share.getUserId()
     private let navigator: SplashNavigator
     
     let status = BehaviorRelay<String>(value: "loading")
     
     let isLoading = BehaviorRelay<Bool>(value: true)
-    
-    let errorMessage = PublishRelay<String>()
     
     var tasks: [Tasks] = []
     
@@ -50,7 +47,7 @@ class SplashViewModel : ViewModel {
                     self.status.accept("Success")
                 }
             } catch {
-                errorMessage.accept(error.localizedDescription)
+                self.navigator.showErrorAlert()
             }
             
             isLoading.accept(false)

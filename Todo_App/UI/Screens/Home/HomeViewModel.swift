@@ -18,8 +18,6 @@ class HomeViewModel: ViewModel {
     
     let currentDate = BehaviorRelay<Date>(value: Date())
     
-    let error = BehaviorRelay<Errors?>(value: nil)
-    let success = BehaviorRelay<String?>(value: nil)
     let isLoading = BehaviorRelay(value: false)
     
     init(tasks: [Tasks], navigator: HomeNavigator) {
@@ -107,13 +105,13 @@ class HomeViewModel: ViewModel {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.isLoading.accept(false)
-                    self.success.accept("Delete successful")
+                    self.navigator.showAlert(title: "Success", message: "Delete successful")
                     self.sections.accept(sections)
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.isLoading.accept(false)
-                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
+                    self.navigator.showAlert(title: "Connection Error", message: error.localizedDescription)
                 }
             }
         }
