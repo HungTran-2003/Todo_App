@@ -8,10 +8,11 @@ import RxSwift
 import RxRelay
 import Foundation
 
-class DetailViewModel {
-    let disposeBag = DisposeBag()
+class DetailTaskViewModel: ViewModel {
+    private let navigator: DetailTaskNavigator
     
     let categorys = [Categorys.TASK, Categorys.EVENT, Categorys.GOAL]
+    let task = BehaviorRelay<Tasks?>(value: nil)
     
     let title = BehaviorRelay(value: "")
     let category = BehaviorRelay(value: 1)
@@ -27,14 +28,17 @@ class DetailViewModel {
     
     let dataOutput = BehaviorRelay<Tasks?>(value: nil)
     
-    init(){
+    init(navigator: DetailTaskNavigator) {
+        self.navigator = navigator
+        super.init(navigator: navigator)
+        
         observeChanges()
     }
     
     func valiedData() -> (text: String?, date: Date?){
         let finalTitle = title.value.trimmingCharacters(in: .whitespacesAndNewlines)
         if finalTitle.isEmpty {
-            error.accept(Errors(title: "Missing Data", message: "Title cannot be empty"))
+            navigator.showAlert(title: "Missing Data", message: "Title cannot be empty")
             return(nil, nil)
         }
         
@@ -45,7 +49,7 @@ class DetailViewModel {
         dateComponents.minute = timeComponents.minute
         
         guard let finalDate = calendar.date(from: dateComponents), finalDate > Date() else {
-            error.accept(Errors(title: "Invalid Data", message: "The selected time must be in the future"))
+            navigator.showAlert(title: "Invalid Data", message: "The selected time must be in the future")
             return(nil, nil)
         }
         
@@ -72,7 +76,7 @@ class DetailViewModel {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
+                    self.navigator.showErrorAlert()
                 }
             }
         }
@@ -145,3 +149,4 @@ class DetailViewModel {
     }
 
 }
+

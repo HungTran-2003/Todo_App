@@ -29,9 +29,9 @@ class TodoItemViewModel: CellViewModel {
 
     func stringDate(date: Date) -> String {
         let timeFormat = DateFormatter()
-        timeFormat.dateFormat = Configs.DateFormart.time
+        timeFormat.dateFormat = Configs.DateFormart.dateTime
         if calendar.isDateInToday(date) {
-            timeFormat.dateFormat = Configs.DateFormart.dateTime
+            timeFormat.dateFormat = Configs.DateFormart.time
         }
 
         return timeFormat.string(from: date)

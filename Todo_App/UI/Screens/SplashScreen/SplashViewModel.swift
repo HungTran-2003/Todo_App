@@ -33,7 +33,6 @@ class SplashViewModel : ViewModel {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                     guard let self = self else { return }
-                print("viewModel")
                     self.navigator.pushHome(tasks: tasks)
             })
             .disposed(by: disposeBag)
@@ -41,7 +40,7 @@ class SplashViewModel : ViewModel {
     }
     
     func loadData(){
-        print("load")
+
         Task {
             do {
                 let loginSuccess = try await AuthService.share.loginAnonymously()
@@ -49,7 +48,6 @@ class SplashViewModel : ViewModel {
                     let data = try await TaskService.share.fetchData()
                     self.tasks = data
                     self.status.accept("Success")
-                    print("su")
                 }
             } catch {
                 errorMessage.accept(error.localizedDescription)

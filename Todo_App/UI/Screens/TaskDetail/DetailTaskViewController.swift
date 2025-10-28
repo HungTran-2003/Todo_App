@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AddTaskViewCL : UIViewController {
+class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskNavigator> {
     
     @IBOutlet weak var titleTextF: UITextField!
     
@@ -24,39 +24,19 @@ class AddTaskViewCL : UIViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     
-    @IBOutlet weak var backButton: UIButton!
-    
-    let disposeBag = DisposeBag()
 
-    var viewModel = DetailViewModel()
-    
-    var task: Tasks? = nil
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpui()
-        guard let task = task else {return}
-        setupUiTask(task: task)
     }
     
-    func setUpui() {
+    override func setupUI() {
         navigationItem.title = "Add New Task"
         
         [titleTextF, dateTextField, timeTextField].forEach {
                 setUpTextField(textfield: $0)
         }
-        
-        navigationItem.hidesBackButton = true
-        let back = UIBarButtonItem(customView: backButton)
-        back.tintColor = .clear
-        navigationItem.leftBarButtonItem = back
-        
-        
-
-
-
+        self.showLeftButton()
         
         setupDatePicker()
         setupTimePicker()
@@ -64,11 +44,6 @@ class AddTaskViewCL : UIViewController {
         bindViewModel()
     }
     
-    
-    @IBAction func backView(_ sender: Any) {
-        print("back")
-        navigationController?.popViewController(animated: true)
-    }
     func bindUI() {
         TaskBT.rx.tap
             .subscribe(onNext: { [weak self] in self?.updateCategory(tag: 1) })
@@ -111,7 +86,7 @@ class AddTaskViewCL : UIViewController {
             .subscribe(onNext: {[weak self] in
                 guard let self = self else {return}
                 self.view.endEditing(true)
-                guard let task = task else {
+                guard let task = viewModel.task.value else {
                     viewModel.addTaskToSupabase()
                     return
                 }
@@ -138,8 +113,8 @@ class AddTaskViewCL : UIViewController {
         dateTextField.inputView = datePicker
         
         if let initial = initialDate {
-                datePicker.date = initial                // Set date vào picker
-                dateTextField.text = formatDate(date: initial) // Set lên textField
+                datePicker.date = initial             
+                dateTextField.text = formatDate(date: initial)
             }
         
         datePicker.rx.date
@@ -156,8 +131,8 @@ class AddTaskViewCL : UIViewController {
         timeTextField.inputView = timePicker
         
         if let initial = initialDate {
-                timePicker.date = initial                // Set date vào picker
-                timeTextField.text = formatTime(date: initial) // Set lên textField
+                timePicker.date = initial
+                timeTextField.text = formatTime(date: initial)
             }
         
         timePicker.rx.date
@@ -169,13 +144,13 @@ class AddTaskViewCL : UIViewController {
     
     func formatDate(date: Date) -> String {
         let format = DateFormatter()
-        format.dateFormat = "dd/MM/YYYY"
+        format.dateFormat = Configs.DateFormart.date
         return format.string(from: date)
     }
     
     func formatTime(date: Date) -> String {
         let format = DateFormatter()
-        format.dateFormat = "hh:mm a"
+        format.dateFormat = Configs.DateFormart.time
         return format.string(from: date)
     }
     
@@ -207,12 +182,24 @@ class AddTaskViewCL : UIViewController {
                 
             })
             .disposed(by: disposeBag)
+        viewModel.task
+            .subscribe(onNext: {[weak self] task in
+                guard let self = self else {return}
+                guard let task = task else {return}
+                setupUiTask(task: task)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupUiTask(task: Tasks){
-        navigationItem.title = "Detail Task"
+        guard let note = task.notes, !note.isEmpty else {return}
+        noteTextView.text = note
+        print(note)
         
         titleTextF.text = task.title
+        navigationItem.title = "Detail Task"
+        print(task.title)
+        
         viewModel.title.accept(task.title)
         
         let index = viewModel.categorys.firstIndex(where: { $0 == task.category}) ?? 0
@@ -222,8 +209,6 @@ class AddTaskViewCL : UIViewController {
         setupDatePicker(initialDate: task.dueDate)
         setupTimePicker(initialDate: task.dueDate)
         
-        guard let note = task.notes, !note.isEmpty else {return}
-        noteTextView.text = note
         viewModel.notes.accept(note)
     }
 }

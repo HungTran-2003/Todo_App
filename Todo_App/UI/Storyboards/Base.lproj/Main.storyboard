@@ -212,10 +212,10 @@
             </objects>
             <point key="canvasLocation" x="4768.8000000000002" y="156.65024630541873"/>
         </scene>
-        <!--Add Task ViewCL-->
+        <!--Detail Task View Controller-->
         <scene sceneID="6Ey-CA-fMa">
             <objects>
-                <viewController storyboardIdentifier="DetailTaskScreen" id="Opo-Fz-pmx" customClass="AddTaskViewCL" customModule="Todo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailTaskScreen" id="Opo-Fz-pmx" customClass="DetailTaskViewController" customModule="Todo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="feV-4V-xMD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -395,21 +395,6 @@
                                     <color key="baseBackgroundColor" red="0.2901960784" green="0.2156862745" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4A-9n-vtM">
-                                <rect key="frame" x="16" y="46" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="tXC-lo-rk7"/>
-                                    <constraint firstAttribute="height" constant="44" id="vMc-29-psb"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="xmark" catalog="system" cornerStyle="capsule">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="backView:" destination="Opo-Fz-pmx" eventType="touchUpInside" id="MvO-le-wqT"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tx9-fV-0sW"/>
                         <color key="backgroundColor" red="0.94509804248809814" green="0.96078431606292725" blue="0.97647058963775635" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -425,9 +410,7 @@
                             <constraint firstAttribute="bottom" secondItem="37Y-tI-hQO" secondAttribute="bottom" constant="24" id="Sg2-DO-ywr"/>
                             <constraint firstItem="PKf-kj-fIC" firstAttribute="top" secondItem="2jo-JB-hNQ" secondAttribute="bottom" constant="24" id="Xgi-UP-ejV"/>
                             <constraint firstItem="2jo-JB-hNQ" firstAttribute="leading" secondItem="Tx9-fV-0sW" secondAttribute="leading" constant="16" id="eEy-FN-gPs"/>
-                            <constraint firstItem="Tx9-fV-0sW" firstAttribute="top" secondItem="l4A-9n-vtM" secondAttribute="bottom" constant="10" id="eW5-1j-y04"/>
                             <constraint firstItem="Tx9-fV-0sW" firstAttribute="trailing" secondItem="2jo-JB-hNQ" secondAttribute="trailing" constant="16" id="gPC-l4-AMf"/>
-                            <constraint firstItem="l4A-9n-vtM" firstAttribute="leading" secondItem="feV-4V-xMD" secondAttribute="leading" constant="16" id="hUU-Qy-Bvk"/>
                             <constraint firstItem="PKf-kj-fIC" firstAttribute="leading" secondItem="Tx9-fV-0sW" secondAttribute="leading" constant="16" id="kvz-Yx-imZ"/>
                             <constraint firstItem="ZYz-LU-emr" firstAttribute="top" secondItem="feV-4V-xMD" secondAttribute="top" id="s8q-JN-2cy"/>
                             <constraint firstItem="Tx9-fV-0sW" firstAttribute="trailing" secondItem="37Y-tI-hQO" secondAttribute="trailing" constant="16" id="snj-TD-OSl"/>
@@ -441,12 +424,11 @@
                         <outlet property="EventBT" destination="Qo8-39-G89" id="VZI-eW-gia"/>
                         <outlet property="GoalBT" destination="Gnd-av-4zY" id="Bbc-5g-i48"/>
                         <outlet property="TaskBT" destination="aon-hb-0Vj" id="JXD-P4-UX5"/>
-                        <outlet property="backButton" destination="l4A-9n-vtM" id="2bc-y6-GLt"/>
                         <outlet property="dateTextField" destination="nVB-eL-6y9" id="uuz-sN-UEA"/>
                         <outlet property="noteTextView" destination="b7d-j9-SYj" id="T0H-Tt-Phf"/>
                         <outlet property="saveButton" destination="37Y-tI-hQO" id="LUp-Fg-Vjv"/>
                         <outlet property="timeTextField" destination="ba0-Lz-8Aj" id="hKP-aJ-oOx"/>
-                        <outlet property="titleTextF" destination="cRm-X8-Cre" id="bhZ-zI-cM8"/>
+                        <outlet property="titleTextF" destination="cRm-X8-Cre" id="Frj-Hq-4Lx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbZ-7k-afA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -6,13 +6,36 @@
 //
 
 import Foundation
+import UIKit
+import RxRelay
+import RxSwift
 
 class HomeNavigator: Navigator {
-    func pushTaskDetail(task: Tasks? = nil) {
-        if let task = task {
-            print("push detal task")
+    
+    let task = BehaviorRelay<Tasks?>(value: nil)
+    
+    func pushTaskDetail(taskVM: TodoItemViewModel? = nil) {
+        let viewController = storyBoard.instantiateViewController(identifier: "DetailTaskScreen") as! DetailTaskViewController
+        let navigator = DetailTaskNavigator(with: viewController)
+        let viewModel = DetailTaskViewModel(navigator: navigator)
+        viewController.viewModel = viewModel
+        bindDataFlow(viewModel: viewModel)
+        if let taskVM = taskVM {
+            let task = taskVM.item
+            viewModel.task.accept(task)
+            navigationController?.pushViewController(viewController, animated: true)
         } else {
-            print("push detail")
+            navigationController?.pushViewController(viewController, animated: true)
         }
+    }
+    
+    func bindDataFlow(viewModel: DetailTaskViewModel){
+        viewModel.dataOutput
+            .subscribe(onNext: {[weak self] task in
+                guard let self = self else {return}
+                guard let task = task else {return}
+                self.task.accept(task)
+            })
+            .disposed(by: viewModel.disposeBag)
     }
 }

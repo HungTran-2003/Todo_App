@@ -35,7 +35,7 @@ class HomeViewModel: ViewModel {
         super.init(navigator: navigator)
         self.dateTracking()
         bindCellViewModelCallbacks()
-        
+        bindDataFlow()
     }
     
     static func dateAt(hour: Int, minute: Int = 0) -> Date {
@@ -45,8 +45,9 @@ class HomeViewModel: ViewModel {
         return Calendar.current.date(from: components)!
     }
     
-    func pushDetail(task: Tasks? = nil){
-        navigator.pushTaskDetail(task: task)
+    func pushDetail(task: TodoItemViewModel? = nil){
+        
+        navigator.pushTaskDetail(taskVM: task)
     }
     
     func dateTracking(){
@@ -61,7 +62,7 @@ class HomeViewModel: ViewModel {
     }
     
     func bindCellViewModelCallbacks(){
-        for (sectionIndex, section) in sections.value.enumerated() {
+        for (_, section) in sections.value.enumerated() {
             for cellVM in section.items {
                 cellVM.onCompletionChanged = { [weak self] changeSection, indexPath in
                     self?.updateSection(changeSection, indexPath)
@@ -70,7 +71,20 @@ class HomeViewModel: ViewModel {
         }
     }
     
-   
+    func bindDataFlow(){
+        navigator.task
+            .subscribe(onNext: {task in
+                guard let task = task else {return}
+                var sections = self.sections.value
+                if let index = sections[0].items.firstIndex(where: {$0.item.id == task.id}) {
+                    sections[0].items[index] = TodoItemViewModel(item: task)
+                }else {
+                    sections[0].items.append(TodoItemViewModel(item: task))
+                }
+                self.sections.accept(sections)
+            })
+            .disposed(by: navigator.disposeBag)
+    }
     
     func updateSection(_ changeSection: Bool , _ indexPath: IndexPath){
         var sections = self.sections.value

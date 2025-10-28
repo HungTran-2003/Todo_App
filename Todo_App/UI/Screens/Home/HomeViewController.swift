@@ -118,7 +118,7 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
         // Tap Cell
         Observable.zip(
             collectionView.rx.itemSelected,
-            collectionView.rx.modelSelected(Tasks.self)
+            collectionView.rx.modelSelected(TodoItemViewModel.self)
         )
         .subscribe(onNext: { [weak self] indexPath, task in
             guard let self = self else { return }
