@@ -82,36 +82,38 @@
             endingLineNumber = "36"
             landmarkName = "init(tasks:navigator:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "11B655E8-C4C8-47FA-AD2E-65A0D340CE87 - f71893895993bf7d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.String, Swift.Array&lt;Todo_App.Tasks&gt;) -&gt; Todo_App.TaskSection in Todo_App.HomeViewModel.init(tasks: Swift.Array&lt;Todo_App.Tasks&gt;, navigator: Todo_App.HomeNavigator) -&gt; Todo_App.HomeViewModel"
-                  moduleName = "Todo_App.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Desktop/Todo_App/Todo_App/UI/Screens/Home/HomeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36">
-               </Location>
-               <Location
-                  uuid = "11B655E8-C4C8-47FA-AD2E-65A0D340CE87 - 4787ddc209ca7d69"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Todo_App.Tasks) -&gt; Todo_App.TodoItemViewModel in closure #2 (Swift.String, Swift.Array&lt;Todo_App.Tasks&gt;) -&gt; Todo_App.TaskSection in Todo_App.HomeViewModel.init(tasks: Swift.Array&lt;Todo_App.Tasks&gt;, navigator: Todo_App.HomeNavigator) -&gt; Todo_App.HomeViewModel"
-                  moduleName = "Todo_App.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Desktop/Todo_App/Todo_App/UI/Screens/Home/HomeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EDF38523-DE19-4638-9CA7-B0EA83DBAA1F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Todo_App/Extensions/UiViewControllerExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "UIViewController"
+            landmarkType = "21">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6F44E3E1-FDD3-48CF-952A-5ECA5CE89BE8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Todo_App/UI/Screens/SplashScreen/SplashNavigatior.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "pushHome(tasks:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

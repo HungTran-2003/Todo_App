@@ -20,6 +20,9 @@ class SplashViewController : ViewController<SplashViewModel, SplashNavigator> {
         let navigator = SplashNavigator(with: self)
         viewModel = SplashViewModel(navigator: navigator)
         super.viewDidLoad()
+    }
+    
+    override func setupUI() {
         bindViewModel()
         viewModel.loadData()
     }
