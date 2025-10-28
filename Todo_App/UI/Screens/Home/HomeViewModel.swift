@@ -8,6 +8,7 @@
 import Foundation
 import RxRelay
 import RxSwift
+import UIKit
 
 class HomeViewModel: ViewModel {
     
@@ -22,24 +23,18 @@ class HomeViewModel: ViewModel {
     let isLoading = BehaviorRelay(value: false)
     
     init(tasks: [Tasks], navigator: HomeNavigator) {
-        let grouped = Dictionary(grouping: tasks) { task in
-            if task.isComplete {
-                return "Complete"
-            } else {
-                return ""
-            }
-        }
-        
-        let sections = grouped.map { key, value in
-            TaskSection(
-                header: key,
-                items: value.map { TodoItemViewModel(item: $0) }
-            )
-        }
+        let completeTasks = tasks.filter { $0.isComplete }
+        let incompleteTasks = tasks.filter { !$0.isComplete }
+
+        let sections = [
+            TaskSection(header: "", items: incompleteTasks.map { TodoItemViewModel(item: $0) }),
+            TaskSection(header: "Complete", items: completeTasks.map { TodoItemViewModel(item: $0) })
+        ]
         self.sections.accept(sections)
         self.navigator = navigator
         super.init(navigator: navigator)
         self.dateTracking()
+        bindCellViewModelCallbacks()
         
     }
     
@@ -65,41 +60,29 @@ class HomeViewModel: ViewModel {
             .disposed(by: disposeBag)
     }
     
-//    func completeTask(task: Tasks){
-//        isLoading.accept(true)
-//        Task {
-//            do {
-//                let taskCompleted = Tasks(
-//                    id: task.id,
-//                    title: task.title,
-//                    dueDate: task.dueDate,
-//                    notes: task.notes,
-//                    isComplete: true,
-//                    category: task.category
-//                )
-//                
-//                let taskUpdated = try await TaskService.share.updateTask(task: taskCompleted)
-//                
-//                if let index = taskTodo.firstIndex(where: {$0.id == task.id}) {
-//                    taskTodo.remove(at: index)
-//                }
-//    
-//                taskComplete.append(taskUpdated)
-//                
-//                DispatchQueue.main.async {
-//                    self.isLoading.accept(false)
-//                    self.success.accept("Congratulations on completing this task")
-//                    self.updateData()
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    self.isLoading.accept(false)
-//                    self.error.accept(Errors(title: "Connection Error", message: error.localizedDescription))
-//                }
-//            }
-//        }
-//    }
-//    
+    func bindCellViewModelCallbacks(){
+        for (sectionIndex, section) in sections.value.enumerated() {
+            for cellVM in section.items {
+                cellVM.onCompletionChanged = { [weak self] changeSection, indexPath in
+                    self?.updateSection(changeSection, indexPath)
+                }
+            }
+        }
+    }
+    
+   
+    
+    func updateSection(_ changeSection: Bool , _ indexPath: IndexPath){
+        var sections = self.sections.value
+        let cellVM = sections[indexPath.section].items[indexPath.row]
+        if indexPath.section == 0 {
+            sections[0].items.remove(at: indexPath.row)
+            sections[1].items.append(cellVM)
+        }
+        
+        self.sections.accept(sections)
+    }
+//
 //    func deleteTask(task: Tasks){
 //        isLoading.accept(true)
 //        Task{

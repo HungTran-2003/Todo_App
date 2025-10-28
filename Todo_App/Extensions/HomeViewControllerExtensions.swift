@@ -49,7 +49,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let sections = viewModel.sections.value
         
-        if sections.allSatisfy({ $0.items.isEmpty }) {
+        if section == 1 && sections[1].items.isEmpty {
             return .zero
         }
         return section == 0

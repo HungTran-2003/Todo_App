@@ -84,7 +84,7 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
                             buttonTitles: ["Cancel", "Yes"]
                         ) { index in
                             if index == 1 {
-//                                self.viewModel.completeTask(task: item)
+                                cellViewModel.updateTask(isCompleteBefore: cellViewModel.item.isComplete, indexPath: indexPath)
                             }
                         }
                     })
