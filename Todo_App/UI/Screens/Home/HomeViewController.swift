@@ -11,28 +11,21 @@ import RxSwift
 import SwipeCellKit
 import UIKit
 
-class HomeViewController: UIViewController {
-
-    let disposeBag = DisposeBag()
-
-    var viewModel: TaskViewModel!
+class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
     @IBOutlet weak var addButton: UIButton!
-
-    @IBOutlet weak var loadingUiView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupUi()
         bindCollectionView()
         binUi()
         bindViewModel()
     }
 
-    func setupUi() {
+    override func setupUI() {
         view.backgroundColor = UIColor(
             red: 241 / 255,
             green: 245 / 255,
@@ -65,7 +58,7 @@ class HomeViewController: UIViewController {
 
     func bindCollectionView() {
         let dataSource = RxCollectionViewSectionedReloadDataSource<TaskSection>(
-            configureCell: { _, collectionView, indexPath, item in
+            configureCell: { _, collectionView, indexPath, cellViewModel in
                 let cell =
                     collectionView.dequeueReusableCell(
                         withReuseIdentifier: "TodoItem",
@@ -78,7 +71,7 @@ class HomeViewController: UIViewController {
                     == (self.viewModel.sections.value[indexPath.section].items
                         .count - 1)
 
-                cell.config(task: item, firstItem: isFirst, lastItem: isLast)
+                cell.config(cellViewModel, firstItem: isFirst, lastItem: isLast)
                 cell.delegate = self
 
                 cell.onCheckBoxTapped
@@ -91,7 +84,7 @@ class HomeViewController: UIViewController {
                             buttonTitles: ["Cancel", "Yes"]
                         ) { index in
                             if index == 1 {
-                                self.viewModel.completeTask(task: item)
+//                                self.viewModel.completeTask(task: item)
                             }
                         }
                     })
@@ -129,23 +122,7 @@ class HomeViewController: UIViewController {
         .subscribe(onNext: { [weak self] indexPath, task in
             guard let self = self else { return }
             if indexPath.section == 0 {
-                let vc =
-                    storyBoard.instantiateViewController(
-                        identifier: "DetailTaskScreen"
-                    ) as! AddTaskViewCL
-                vc.task = task
-
-                vc.viewModel.dataOutput
-                    .subscribe(onNext: { value in
-                        guard let value = value else { return }
-                        self.viewModel.updateData(task: value)
-                    })
-                    .disposed(by: vc.viewModel.disposeBag)
-
-                self.navigationController?.pushViewController(
-                    vc,
-                    animated: true
-                )
+                viewModel.pushDetail(task: task)
             } else {
                 print(task.title)
             }
@@ -159,23 +136,7 @@ class HomeViewController: UIViewController {
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-
-                let vc =
-                    storyBoard.instantiateViewController(
-                        identifier: "DetailTaskScreen"
-                    ) as! AddTaskViewCL
-
-                vc.viewModel.dataOutput
-                    .subscribe(onNext: { value in
-                        guard let value = value else { return }
-                        self.viewModel.updateData(task: value)
-                    })
-                    .disposed(by: vc.viewModel.disposeBag)
-
-                self.navigationController?.pushViewController(
-                    vc,
-                    animated: true
-                )
+                viewModel.pushDetail()
             })
             .disposed(by: disposeBag)
 
@@ -203,11 +164,6 @@ class HomeViewController: UIViewController {
 
             })
             .disposed(by: disposeBag)
-        
-        viewModel.isLoading
-            .map { !$0 }
-            .bind(to: loadingUiView.rx.isHidden)
-            .disposed(by: disposeBag)
 
     }
 
@@ -224,11 +180,11 @@ class HomeViewController: UIViewController {
         if indexPath.section == 0 {
             self.showAlert(title: "Delete Task", message: "This task has not been completed. Are you sure you want to delete it?", buttonTitles: ["Cancel", "Yes"]){ index in
                 if index == 1 {
-                    self.viewModel.deleteTask(task: item)
+//                    self.viewModel.deleteTask(task: item)
                 }
             }
         } else {
-            self.viewModel.deleteTask(task: item)
+//            self.viewModel.deleteTask(task: item)
         }
     }
 }

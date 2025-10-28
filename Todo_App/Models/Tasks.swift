@@ -16,6 +16,8 @@ struct Tasks: Codable {
     let isComplete: Bool
     let category: Categorys
     let userId: String?
+//    let createdAt: Date
+//    let completedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -25,6 +27,8 @@ struct Tasks: Codable {
         case isComplete = "is_complete"
         case category
         case userId = "user_id"
+//        case createdAt = "created_at"
+//        case completedAt = "completed_at"
     }
     
     init(id: Int?, title: String, dueDate: Date, notes: String?, isComplete: Bool, category: Categorys) {

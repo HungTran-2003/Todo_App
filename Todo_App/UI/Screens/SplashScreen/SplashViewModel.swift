@@ -11,24 +11,36 @@ import RxRelay
 import RxCocoa
 import Supabase
 
-class SplashViewModel {
-    let disposeBag = DisposeBag()
+class SplashViewModel : ViewModel {
     
     private let uuid = UserManager.share.getUserId()
+    private let navigator: SplashNavigator
     
     let status = BehaviorRelay<String>(value: "loading")
     
     let isLoading = BehaviorRelay<Bool>(value: true)
     
     let errorMessage = PublishRelay<String>()
-
-    let navigator = PublishSubject<Void>()
     
     var tasks: [Tasks] = []
     
-    func loadData(){
-        isLoading.accept(true)
+    init(navigator: SplashNavigator) {
+        self.navigator = navigator
+        super.init(navigator: navigator)
+        loadData()
         
+        status.filter { $0 == "Success" }
+            .delay(.seconds(1), scheduler: MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.navigator.pushHome(tasks: tasks)
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func loadData(){
         Task {
             do {
                 let loginSuccess = try await AuthService.share.loginAnonymously()
@@ -36,7 +48,6 @@ class SplashViewModel {
                     let data = try await TaskService.share.fetchData()
                     self.tasks = data
                     self.status.accept("Success")
-                    navigationToHome()
                 }
             } catch {
                 errorMessage.accept(error.localizedDescription)
@@ -45,12 +56,5 @@ class SplashViewModel {
             isLoading.accept(false)
         }
 
-    }
-    
-    func navigationToHome(){
-        Observable.just(())
-                .delay(.seconds(1), scheduler: MainScheduler.instance)
-                .bind(to: navigator)
-                .disposed(by: disposeBag)
     }
 }

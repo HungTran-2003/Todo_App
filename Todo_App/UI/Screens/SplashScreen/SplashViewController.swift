@@ -8,35 +8,29 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SplashViewController : UIViewController {
-    
-    let disposeBag = DisposeBag()
-    
-    private var viewModel: SplashViewModel = SplashViewModel()
+class SplashViewController : ViewController<SplashViewModel, SplashNavigator> {
     
     @IBOutlet weak var labelIndicator: UILabel!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    override var shouldUseAutoHUD: Bool {false}
+    
     override func viewDidLoad() {
+        let navigator = SplashNavigator(with: self)
+        viewModel = SplashViewModel(navigator: navigator)
         super.viewDidLoad()
         bindViewModel()
         viewModel.loadData()
     }
     
-    
     private func bindViewModel() {
-        viewModel.status .bind(to: labelIndicator.rx.text) .disposed(by: disposeBag)
+        
+        viewModel.status.bind(to: labelIndicator.rx.text)
+            .disposed(by: disposeBag)
+
         
         viewModel.isLoading.bind(to: activityIndicator.rx.isAnimating) .disposed(by: disposeBag)
-        
-        viewModel.navigator
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else {return}
-                self.navigationToHome()
-            })
-            .disposed(by: disposeBag)
         
         viewModel.errorMessage
             .observe(on: MainScheduler.instance)
@@ -48,13 +42,6 @@ class SplashViewController : UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func navigationToHome(){
-        let viewModel = TaskViewModel(tasks: viewModel.tasks)
-        let homeVC = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! HomeViewController
-        homeVC.viewModel = viewModel
-
-        navigationController?.setViewControllers([homeVC], animated: true)
-    }
     
     
 }

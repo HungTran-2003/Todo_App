@@ -47,7 +47,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        if viewModel.taskComplete.count == 0 {
+        let sections = viewModel.sections.value
+        
+        if sections.allSatisfy({ $0.items.isEmpty }) {
             return .zero
         }
         return section == 0

@@ -15,6 +15,8 @@
 		844628C82EA60E4E006470F7 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 844628C72EA60E4E006470F7 /* RxDataSources */; };
 		844629062EA8B436006470F7 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 844629052EA8B436006470F7 /* SwipeCellKit */; };
 		8446290D2EA8CDF0006470F7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8446290C2EA8CDF0006470F7 /* IQKeyboardManagerSwift */; };
+		844629EF2EAF53A0006470F7 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 844629EE2EAF53A0006470F7 /* MBProgressHUD */; };
+		844629F42EAF5F32006470F7 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 844629F32EAF5F32006470F7 /* SwiftyBeaver */; };
 		848168442E9F9EC200E91A6D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 848168432E9F9EC200E91A6D /* RxCocoa */; };
 		848168462E9F9EC200E91A6D /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 848168452E9F9EC200E91A6D /* RxRelay */; };
 		848168482E9F9EC200E91A6D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 848168472E9F9EC200E91A6D /* RxSwift */; };
@@ -57,6 +59,8 @@
 				844628BF2EA5D7FA006470F7 /* Auth in Frameworks */,
 				844628C62EA60E4E006470F7 /* Differentiator in Frameworks */,
 				848168462E9F9EC200E91A6D /* RxRelay in Frameworks */,
+				844629F42EAF5F32006470F7 /* SwiftyBeaver in Frameworks */,
+				844629EF2EAF53A0006470F7 /* MBProgressHUD in Frameworks */,
 				844628C82EA60E4E006470F7 /* RxDataSources in Frameworks */,
 				844628992EA0E748006470F7 /* Realtime in Frameworks */,
 				844629062EA8B436006470F7 /* SwipeCellKit in Frameworks */,
@@ -115,6 +119,8 @@
 				844628C72EA60E4E006470F7 /* RxDataSources */,
 				844629052EA8B436006470F7 /* SwipeCellKit */,
 				8446290C2EA8CDF0006470F7 /* IQKeyboardManagerSwift */,
+				844629EE2EAF53A0006470F7 /* MBProgressHUD */,
+				844629F32EAF5F32006470F7 /* SwiftyBeaver */,
 			);
 			productName = Todo_App;
 			productReference = 848EAA502E9CFCE6002755FE /* Todo_App.app */;
@@ -150,6 +156,8 @@
 				844628C42EA60E4E006470F7 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				844629042EA8B436006470F7 /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 				8446290B2EA8CDEF006470F7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				844629ED2EAF53A0006470F7 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				844629F22EAF5F32006470F7 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 848EAA512E9CFCE6002755FE /* Products */;
@@ -419,6 +427,22 @@
 				minimumVersion = 8.0.1;
 			};
 		};
+		844629ED2EAF53A0006470F7 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		844629F22EAF5F32006470F7 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
 		848168422E9F9EC100E91A6D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -469,6 +493,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8446290B2EA8CDEF006470F7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		844629EE2EAF53A0006470F7 /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 844629ED2EAF53A0006470F7 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		844629F32EAF5F32006470F7 /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 844629F22EAF5F32006470F7 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
 		};
 		848168432E9F9EC200E91A6D /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;

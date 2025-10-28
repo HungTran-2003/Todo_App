@@ -1,5 +1,5 @@
 {
-  "originHash" : "b4c3f946a6e635651d49f1cec96afcdcb4adcf276f10f5b63b6cfef66943c4e0",
+  "originHash" : "84904300d8971485c4454ab9d2a2dfacd453946fb549117775221ba8a8e2b333",
   "pins" : [
     {
       "identity" : "iqkeyboardcore",
@@ -74,6 +74,15 @@
       }
     },
     {
+      "identity" : "mbprogresshud",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jdg/MBProgressHUD",
+      "state" : {
+        "revision" : "bca42b801100b2b3a4eda0ba8dd33d858c780b0d",
+        "version" : "1.2.0"
+      }
+    },
+    {
       "identity" : "rxdatasources",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxDataSources",
@@ -143,6 +152,15 @@
       "state" : {
         "revision" : "a0a57e949a8903563aba4615869310c0ebf14c03",
         "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "swiftybeaver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver",
+      "state" : {
+        "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
+        "version" : "2.1.1"
       }
     },
     {

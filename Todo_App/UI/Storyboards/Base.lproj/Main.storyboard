@@ -132,7 +132,7 @@
                                                         </stackView>
                                                     </subviews>
                                                 </stackView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7m4-Ys-jSV">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7m4-Ys-jSV" customClass="CheckboxButton" customModule="Todo_App" customModuleProvider="target">
                                                     <rect key="frame" x="274" y="27" width="26" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="wsk-9w-j83"/>
@@ -158,7 +158,7 @@
                                         <connections>
                                             <outlet property="TaskStackView" destination="WnF-6C-Bnz" id="Dvx-HX-fY4"/>
                                             <outlet property="categoryImV" destination="m1n-Po-vCk" id="WtF-qg-5aB"/>
-                                            <outlet property="checkBox" destination="7m4-Ys-jSV" id="SkG-7j-jRh"/>
+                                            <outlet property="checkBoxBT" destination="7m4-Ys-jSV" id="eeP-IQ-Ipt"/>
                                             <outlet property="timeLabel" destination="jZt-cl-ZMb" id="MjM-7q-tAP"/>
                                             <outlet property="titleLabel" destination="4uC-aV-cG5" id="ghL-lP-Cyf"/>
                                         </connections>
@@ -185,45 +185,19 @@
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46y-ga-M6U">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="U3s-MI-rEx">
-                                        <rect key="frame" x="169" y="387.66666666666669" width="37" height="37"/>
-                                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </activityIndicatorView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odU-07-ubw">
-                                        <rect key="frame" x="157.33333333333334" y="434.66666666666669" width="60.666666666666657" height="20.333333333333314"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.63137254901960782" green="0.63137254901960782" blue="0.63137254901960782" alpha="0.26518522350993379" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="odU-07-ubw" firstAttribute="top" secondItem="U3s-MI-rEx" secondAttribute="bottom" constant="10" id="40E-Rf-cMk"/>
-                                    <constraint firstItem="U3s-MI-rEx" firstAttribute="centerY" secondItem="46y-ga-M6U" secondAttribute="centerY" id="8fw-XR-MPq"/>
-                                    <constraint firstItem="odU-07-ubw" firstAttribute="centerX" secondItem="46y-ga-M6U" secondAttribute="centerX" id="vM2-eT-EN2"/>
-                                    <constraint firstItem="U3s-MI-rEx" firstAttribute="centerX" secondItem="46y-ga-M6U" secondAttribute="centerX" id="wxH-0n-3gG"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="azj-Vl-DIF" firstAttribute="centerY" secondItem="Hcq-HM-ocD" secondAttribute="centerY" id="66x-Wx-luc"/>
                             <constraint firstItem="doa-L8-gIM" firstAttribute="top" secondItem="ggY-kn-GwO" secondAttribute="bottom" constant="21.666666666666629" id="AgY-sV-nyi"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="46y-ga-M6U" secondAttribute="trailing" id="EMu-Lk-omf"/>
-                            <constraint firstItem="46y-ga-M6U" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JhM-Qe-GhL"/>
                             <constraint firstAttribute="bottom" secondItem="doa-L8-gIM" secondAttribute="bottom" constant="24" id="REQ-UM-tRX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="doa-L8-gIM" secondAttribute="trailing" constant="16" id="SOs-kV-laf"/>
                             <constraint firstItem="ggY-kn-GwO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SYL-PG-LXg"/>
                             <constraint firstItem="azj-Vl-DIF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TeF-eW-dzF"/>
                             <constraint firstItem="ggY-kn-GwO" firstAttribute="top" secondItem="Hcq-HM-ocD" secondAttribute="top" constant="158" id="YKK-Kv-DW7"/>
-                            <constraint firstItem="46y-ga-M6U" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ZDy-T0-Xdm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hcq-HM-ocD" secondAttribute="trailing" id="aG6-FV-Txv"/>
                             <constraint firstItem="Hcq-HM-ocD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="alk-aa-YHN"/>
-                            <constraint firstAttribute="bottom" secondItem="46y-ga-M6U" secondAttribute="bottom" id="iVz-L8-Pp8"/>
                             <constraint firstItem="doa-L8-gIM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="nbK-Ei-scZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ggY-kn-GwO" secondAttribute="trailing" id="p4Y-lL-pKz"/>
                             <constraint firstItem="Hcq-HM-ocD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="x6w-Cp-akp"/>
@@ -232,7 +206,6 @@
                     <connections>
                         <outlet property="addButton" destination="doa-L8-gIM" id="VKc-KS-pKf"/>
                         <outlet property="collectionView" destination="ggY-kn-GwO" id="SGc-OW-cgS"/>
-                        <outlet property="loadingUiView" destination="46y-ga-M6U" id="psa-hD-Wgz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
