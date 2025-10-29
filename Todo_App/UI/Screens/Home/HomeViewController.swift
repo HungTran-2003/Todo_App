@@ -77,15 +77,17 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
                 cell.onCheckBoxTapped
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        self.showAlert(
-                            title: "Complete Task",
-                            message:
-                                "Are you sure you have completed this task?",
-                            buttonTitles: ["Cancel", "Yes"]
-                        ) { index in
-                            if index == 1 {
-                                self.viewModel.isLoading.accept(true)
-                                cellViewModel.updateTask(isCompleteBefore: cellViewModel.item.isComplete, indexPath: indexPath)
+                        if indexPath.section == 0 {
+                            self.showAlert(
+                                title: "Complete Task",
+                                message:
+                                    "Are you sure you have completed this task?",
+                                buttonTitles: ["Cancel", "Yes"]
+                            ) { index in
+                                if index == 1 {
+                                    self.viewModel.isLoading.accept(true)
+                                    cellViewModel.updateTask(isCompleteBefore: cellViewModel.item.isComplete, indexPath: indexPath)
+                                }
                             }
                         }
                     })
