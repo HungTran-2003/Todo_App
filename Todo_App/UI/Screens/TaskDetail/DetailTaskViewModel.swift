@@ -12,7 +12,9 @@ class DetailTaskViewModel: ViewModel {
     private let navigator: DetailTaskNavigator
     
     let categorys = [Categorys.TASK, Categorys.EVENT, Categorys.GOAL]
-    let task = BehaviorRelay<Tasks?>(value: nil)
+    
+    private(set) var taskVM: TodoItemViewModel?
+    private(set) var indexPath: IndexPath?
     
     let title = BehaviorRelay(value: "")
     let category = BehaviorRelay(value: 1)
@@ -29,6 +31,12 @@ class DetailTaskViewModel: ViewModel {
         super.init(navigator: navigator)
         
         observeChanges()
+    }
+    
+    func setData(_ taskVM: TodoItemViewModel, _ indexPath: IndexPath) {
+        self.taskVM = taskVM
+        self.indexPath = indexPath
+        bindCellViewModelCallbacks()
     }
     
     func valiedData() -> (text: String?, date: Date?){
@@ -70,7 +78,7 @@ class DetailTaskViewModel: ViewModel {
                     self.navigator.showAlert(title: "Success", message: "Added Task successfully") { _ in
                         self.navigator.backHome()
                     }
-                    
+                    self.navigator.backHome()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -83,6 +91,10 @@ class DetailTaskViewModel: ViewModel {
     }
     
     func updateTask(task: Tasks){
+        guard let taskVM = taskVM, let indexPath = indexPath else {
+            self.navigator.showAlert(title: "Error", message: "Cannot find this Task")
+            return
+        }
         
         let result = valiedData()
         guard let finalTitle = result.text else {return}
@@ -92,23 +104,22 @@ class DetailTaskViewModel: ViewModel {
         
         isLoading.accept(true)
         
-        Task{
-            do {
-                let data = try await TaskService.share.updateTask(task: task)
-                DispatchQueue.main.async {
-                    self.dataOutput.accept(data)
-                    self.navigator.showAlert(title: "Success", message: "Update Task successfully") { _ in
-                        self.navigator.backHome()
-                    }
-                    
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.navigator.showErrorAlert()
-                }
-            }
-        }
+        taskVM.updateTask(task: task, isCompleteBefore: task.isComplete, indexPath: indexPath)
         
+    }
+    
+    func bindCellViewModelCallbacks(){
+        guard let taskVM = taskVM else {return}
+        
+        taskVM.onCompletionChanged
+            .subscribe(onNext: {[weak self] _, _ in
+                guard let self = self else {return}
+                self.isLoading.accept(false)
+                self.navigator.showAlert(title: "Success", message: "Task update successfully") { _ in
+                    self.navigator.backHome()
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     func observeChanges() {

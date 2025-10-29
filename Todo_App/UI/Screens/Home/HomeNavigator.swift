@@ -14,15 +14,14 @@ class HomeNavigator: Navigator {
     
     let task = BehaviorRelay<Tasks?>(value: nil)
     
-    func pushTaskDetail(taskVM: TodoItemViewModel? = nil) {
+    func pushTaskDetail(taskVM: TodoItemViewModel? = nil, indexPath: IndexPath? = nil) {
         let viewController = storyBoard.instantiateViewController(identifier: "DetailTaskScreen") as! DetailTaskViewController
         let navigator = DetailTaskNavigator(with: viewController)
         let viewModel = DetailTaskViewModel(navigator: navigator)
         viewController.viewModel = viewModel
         bindDataFlow(viewModel: viewModel)
-        if let taskVM = taskVM {
-            let task = taskVM.item
-            viewModel.task.accept(task)
+        if let taskVM = taskVM, let indexPath = indexPath{
+            viewModel.setData(taskVM, indexPath)
             navigationController?.pushViewController(viewController, animated: true)
         } else {
             navigationController?.pushViewController(viewController, animated: true)

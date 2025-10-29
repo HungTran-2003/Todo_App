@@ -123,7 +123,7 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
         .subscribe(onNext: { [weak self] indexPath, task in
             guard let self = self else { return }
             if indexPath.section == 0 {
-                viewModel.pushDetail(task: task)
+                viewModel.pushDetail(task: task, indexPath: indexPath)
             } else {
                 print(task.title)
             }
@@ -144,7 +144,6 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
     }
 
     func bindViewModel() {
-        
         viewModel.isLoading.bind(to: self.isLoading).disposed(by: disposeBag)
 
     }

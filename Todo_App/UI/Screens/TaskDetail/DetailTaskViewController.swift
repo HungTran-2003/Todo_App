@@ -41,7 +41,9 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
         setupDatePicker()
         setupTimePicker()
         bindUI()
-        bindViewModel()
+        
+        guard let taskVM = viewModel.taskVM else {return}
+        setupUiTask(task: taskVM.item)
     }
     
     func bindUI() {
@@ -86,7 +88,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
             .subscribe(onNext: {[weak self] in
                 guard let self = self else {return}
                 self.view.endEditing(true)
-                guard let task = viewModel.task.value else {
+                guard let task = viewModel.taskVM?.item else {
                     viewModel.addTaskToSupabase()
                     return
                 }
@@ -157,17 +159,6 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
     func setUpTextField(textfield: UITextField) {
         textfield.layer.cornerRadius = 8
         textfield.layer.masksToBounds = true
-    }
-    
-    func bindViewModel(){
-
-        viewModel.task
-            .subscribe(onNext: {[weak self] task in
-                guard let self = self else {return}
-                guard let task = task else {return}
-                setupUiTask(task: task)
-            })
-            .disposed(by: disposeBag)
     }
     
     func setupUiTask(task: Tasks){

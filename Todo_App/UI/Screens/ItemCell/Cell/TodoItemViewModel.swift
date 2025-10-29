@@ -12,7 +12,7 @@ class TodoItemViewModel: CellViewModel {
     private(set) var item: Tasks
 
     let calendar = Calendar.current
-    var onCompletionChanged: ((Bool, IndexPath) -> Void)?
+    let onCompletionChanged = PublishRelay<(Bool, IndexPath)>()
 
     init(item: Tasks) {
         self.item = item
@@ -53,10 +53,10 @@ class TodoItemViewModel: CellViewModel {
         
         Task {
             let taskUpdate = try await TaskService.share.updateTask(task: task ?? taskComplete)
-            let changeSection = taskUpdate.isComplete == item.isComplete
+            let changeSection = taskUpdate.isComplete != item.isComplete
             self.item = taskUpdate
             bindData()
-            self.onCompletionChanged?(changeSection, indexPath)
+            self.onCompletionChanged.accept((changeSection, indexPath))
         }
     }
 }

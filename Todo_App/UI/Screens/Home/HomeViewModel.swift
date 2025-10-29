@@ -43,9 +43,8 @@ class HomeViewModel: ViewModel {
         return Calendar.current.date(from: components)!
     }
     
-    func pushDetail(task: TodoItemViewModel? = nil){
-        
-        navigator.pushTaskDetail(taskVM: task)
+    func pushDetail(task: TodoItemViewModel? = nil, indexPath: IndexPath? = nil){
+        navigator.pushTaskDetail(taskVM: task, indexPath: indexPath)
     }
     
     func dateTracking(){
@@ -62,9 +61,12 @@ class HomeViewModel: ViewModel {
     func bindCellViewModelCallbacks(){
         for (_, section) in sections.value.enumerated() {
             for cellVM in section.items {
-                cellVM.onCompletionChanged = { [weak self] changeSection, indexPath in
-                    self?.updateSection(changeSection, indexPath)
-                }
+                cellVM.onCompletionChanged
+                    .subscribe(onNext: {[weak self] changeSection, indexPath in
+                        guard let self = self else {return}
+                        self.updateSection(changeSection, indexPath)
+                    })
+                    .disposed(by: disposeBag)
             }
         }
     }
@@ -74,11 +76,7 @@ class HomeViewModel: ViewModel {
             .subscribe(onNext: {task in
                 guard let task = task else {return}
                 var sections = self.sections.value
-                if let index = sections[0].items.firstIndex(where: {$0.item.id == task.id}) {
-                    sections[0].items[index] = TodoItemViewModel(item: task)
-                }else {
-                    sections[0].items.append(TodoItemViewModel(item: task))
-                }
+                sections[0].items.append(TodoItemViewModel(item: task))
                 self.sections.accept(sections)
             })
             .disposed(by: navigator.disposeBag)
@@ -87,9 +85,10 @@ class HomeViewModel: ViewModel {
     func updateSection(_ changeSection: Bool , _ indexPath: IndexPath){
         var sections = self.sections.value
         let cellVM = sections[indexPath.section].items[indexPath.row]
-        if indexPath.section == 0 {
+        if indexPath.section == 0 && changeSection {
             sections[0].items.remove(at: indexPath.row)
             sections[1].items.append(cellVM)
+            self.navigator.showAlert(title: "Success", message: "Task complete successfully")
         }
         isLoading.accept(false)
         self.sections.accept(sections)
