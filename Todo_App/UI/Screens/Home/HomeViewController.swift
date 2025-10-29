@@ -17,6 +17,9 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
 
     @IBOutlet weak var addButton: UIButton!
     
+    @IBOutlet weak var emptyDataLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -114,8 +117,19 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
         )
 
         viewModel.sections
+            .do(onNext: { [weak self] sections in
+                guard let self = self else { return }
+                let isAllEmpty = sections.allSatisfy { $0.items.isEmpty }
+                
+                if isAllEmpty {
+                    self.emptyDataLabel.isHidden = false
+                } else {
+                    self.emptyDataLabel.isHidden = true
+                }
+            })
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+
 
         // Tap Cell
         Observable.zip(

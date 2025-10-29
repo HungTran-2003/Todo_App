@@ -77,6 +77,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have any tasks yet." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rPf-Va-Aex">
+                                <rect key="frame" x="61.000000000000014" y="394" width="253.33333333333337" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doa-L8-gIM">
                                 <rect key="frame" x="15" y="732" width="344" height="56"/>
                                 <constraints>
@@ -191,6 +197,7 @@
                         <constraints>
                             <constraint firstItem="azj-Vl-DIF" firstAttribute="centerY" secondItem="Hcq-HM-ocD" secondAttribute="centerY" id="66x-Wx-luc"/>
                             <constraint firstItem="doa-L8-gIM" firstAttribute="top" secondItem="ggY-kn-GwO" secondAttribute="bottom" constant="21.666666666666629" id="AgY-sV-nyi"/>
+                            <constraint firstItem="rPf-Va-Aex" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FbM-zj-NMj"/>
                             <constraint firstAttribute="bottom" secondItem="doa-L8-gIM" secondAttribute="bottom" constant="24" id="REQ-UM-tRX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="doa-L8-gIM" secondAttribute="trailing" constant="16" id="SOs-kV-laf"/>
                             <constraint firstItem="ggY-kn-GwO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SYL-PG-LXg"/>
@@ -198,6 +205,7 @@
                             <constraint firstItem="ggY-kn-GwO" firstAttribute="top" secondItem="Hcq-HM-ocD" secondAttribute="top" constant="158" id="YKK-Kv-DW7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hcq-HM-ocD" secondAttribute="trailing" id="aG6-FV-Txv"/>
                             <constraint firstItem="Hcq-HM-ocD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="alk-aa-YHN"/>
+                            <constraint firstItem="rPf-Va-Aex" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="iD0-9o-HIe"/>
                             <constraint firstItem="doa-L8-gIM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="nbK-Ei-scZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ggY-kn-GwO" secondAttribute="trailing" id="p4Y-lL-pKz"/>
                             <constraint firstItem="Hcq-HM-ocD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="x6w-Cp-akp"/>
@@ -206,6 +214,7 @@
                     <connections>
                         <outlet property="addButton" destination="doa-L8-gIM" id="VKc-KS-pKf"/>
                         <outlet property="collectionView" destination="ggY-kn-GwO" id="SGc-OW-cgS"/>
+                        <outlet property="emptyDataLabel" destination="rPf-Va-Aex" id="kKl-N5-Phc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
