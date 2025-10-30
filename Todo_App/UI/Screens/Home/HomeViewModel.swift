@@ -14,7 +14,7 @@ class HomeViewModel: ViewModel {
     
     private let navigator: HomeNavigator
     
-    let sections = BehaviorRelay<[TaskSection]>(value: [])
+    let sections = BehaviorRelay<[TodoSection]>(value: [])
     
     let currentDate = BehaviorRelay<Date>(value: Date())
     
@@ -25,15 +25,15 @@ class HomeViewModel: ViewModel {
         let incompleteTasks = tasks.filter { !$0.isComplete }
 
         let sections = [
-            TaskSection(header: "", items: incompleteTasks.map { TodoItemViewModel(item: $0) }),
-            TaskSection(header: "Complete", items: completeTasks.map { TodoItemViewModel(item: $0) })
+            TodoSection(header: "", items: incompleteTasks.map { TodoItemViewModel(item: $0) }),
+            TodoSection(header: "Complete", items: completeTasks.map { TodoItemViewModel(item: $0) })
         ]
         self.sections.accept(sections)
         self.navigator = navigator
         super.init(navigator: navigator)
         self.dateTracking()
-        bindCellViewModelCallbacks()
         bindDataFlow()
+        bindAllCellViewModelEvents()
     }
     
     static func dateAt(hour: Int, minute: Int = 0) -> Date {
@@ -58,26 +58,37 @@ class HomeViewModel: ViewModel {
             .disposed(by: disposeBag)
     }
     
-    func bindCellViewModelCallbacks(){
-        for (_, section) in sections.value.enumerated() {
+    private func bindAllCellViewModelEvents() {
+        print("bind all cells")
+        for section in sections.value {
             for cellVM in section.items {
-                cellVM.onCompletionChanged
-                    .subscribe(onNext: {[weak self] changeSection, indexPath in
-                        guard let self = self else {return}
-                        self.updateSection(changeSection, indexPath)
-                    })
-                    .disposed(by: disposeBag)
+                print("bind cell")
+                bindEvents(for: cellVM)
             }
         }
     }
+
+    private func bindEvents(for taskVM: TodoItemViewModel) {
+        taskVM.onCompletionChanged
+            .subscribe(onNext: { [weak self] changeSection, indexPath in
+                guard let self = self else { return }
+                print("bind event")
+                self.updateSection(changeSection, indexPath)
+            })
+            .disposed(by: disposeBag)
+    }
+
     
     func bindDataFlow(){
         navigator.task
             .subscribe(onNext: {task in
                 guard let task = task else {return}
                 var sections = self.sections.value
-                sections[0].items.append(TodoItemViewModel(item: task))
+                let taskVM = TodoItemViewModel(item: task)
+                self.bindEvents(for: taskVM)
+                sections[0].items.append(taskVM)
                 self.sections.accept(sections)
+                
             })
             .disposed(by: navigator.disposeBag)
     }

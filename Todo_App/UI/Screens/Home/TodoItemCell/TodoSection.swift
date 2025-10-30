@@ -6,14 +6,14 @@
 //
 import RxDataSources
 
-struct TaskSection {
+struct TodoSection {
     var header: String?
     var items: [TodoItemViewModel]
 }
 
-extension TaskSection: SectionModelType {
+extension TodoSection: SectionModelType {
     
-    init(original: TaskSection, items: [TodoItemViewModel]) {
+    init(original: TodoSection, items: [TodoItemViewModel]) {
         self = original
         self.items = items
     }

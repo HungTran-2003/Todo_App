@@ -10,7 +10,7 @@ import UIKit
 class SplashNavigator: Navigator {
     
     func pushHome(tasks : [Tasks]) {
-        let homeVC = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! HomeViewController
+        let homeVC = HomeViewController(nibName: "HomeViewController", bundle: nil)
         let navigator = HomeNavigator(with: homeVC)
         let viewModel = HomeViewModel(tasks: tasks, navigator: navigator)
         homeVC.viewModel = viewModel

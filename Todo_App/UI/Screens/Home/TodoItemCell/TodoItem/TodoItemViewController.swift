@@ -1,20 +1,23 @@
 //
-//  TodoItem.swift
+//  TodoItemViewController.swift
 //  Todo_App
 //
-//  Created by admin on 14/10/25.
+//  Created by admin on 30/10/25.
 //
 
 import UIKit
-import RxSwift
 import RxRelay
-import RxCocoa
 import SwipeCellKit
+import RxSwift
+import RxCocoa
 
-class TodoItem : CollectionViewCell {
+class TodoItemViewController: CollectionViewCell {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
     
-    
-    @IBOutlet weak var categoryImV: UIImageView!
+    @IBOutlet weak var categoryIV: UIImageView!
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -23,6 +26,7 @@ class TodoItem : CollectionViewCell {
     @IBOutlet weak var TaskStackView: UIStackView!
     
     @IBOutlet weak var checkBoxBT: CheckboxButton!
+    
     
     let onCheckBoxTapped = PublishRelay<Void>()
     
@@ -52,7 +56,7 @@ class TodoItem : CollectionViewCell {
             .map { nameImage in
                 return UIImage(named: nameImage ?? "Task")
                 }
-            .bind(to: categoryImV.rx.image)
+            .bind(to: categoryIV.rx.image)
             .disposed(by: disposeBag)
         viewModel.dueDate.bind(to: timeLabel.rx.text).disposed(by: disposeBag)
         
@@ -73,30 +77,35 @@ class TodoItem : CollectionViewCell {
     func config(_ viewModel: CellViewModel, firstItem: Bool = false, lastItem: Bool = false) {
         bind(viewModel: viewModel)
         
+        print(viewModel.title)
+        print("first item: \(firstItem)")
+        print("last item: \(lastItem)")
+        
         if firstItem && lastItem {
-                contentView.layer.cornerRadius = 16
-                contentView.layer.maskedCorners = [
+               layer.cornerRadius = 16
+                layer.maskedCorners = [
                     .layerMinXMinYCorner,
                     .layerMaxXMinYCorner,
                     .layerMinXMaxYCorner,
                     .layerMaxXMaxYCorner
                 ]
-                contentView.clipsToBounds = false
+                clipsToBounds = false
             } else if firstItem {
-                contentView.layer.cornerRadius = 16
-                contentView.layer.maskedCorners = [
+                layer.cornerRadius = 16
+                layer.maskedCorners = [
                     .layerMinXMinYCorner,
                     .layerMaxXMinYCorner
                 ]
                 contentView.clipsToBounds = false
             } else if lastItem {
-                contentView.layer.cornerRadius = 16
-                contentView.layer.maskedCorners = [
+                layer.cornerRadius = 16
+                layer.maskedCorners = [
                     .layerMinXMaxYCorner,
                     .layerMaxXMaxYCorner
                 ]
                 contentView.clipsToBounds = false
             }
+        
     }
     
     // MARK: - Helper UI Configuration
@@ -115,5 +124,5 @@ class TodoItem : CollectionViewCell {
         }
         TaskStackView.alpha = 0.5
     }
-        
+
 }

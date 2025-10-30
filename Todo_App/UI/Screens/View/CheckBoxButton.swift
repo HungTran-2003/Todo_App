@@ -15,15 +15,15 @@ class CheckboxButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        makeUI()
+        updateUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        makeUI()
+        updateUI()
     }
     
-    private func makeUI() {
+    private func updateUI() {
         onChecked.subscribe(onNext: { [weak self] isChecked in
             guard let self = self else { return }
             if isChecked {

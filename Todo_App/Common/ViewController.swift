@@ -19,28 +19,16 @@ class ViewController<V: ViewModel, N: Navigator>: UIViewController {
     
     let isLoading = BehaviorRelay(value: false)
     
-    let emptyDataSetButtonTap = PublishSubject<Void>()
-    
     var shouldUseAutoHUD: Bool { true }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
         setupUI()
         setupListener()
     }
     
-    deinit {
-        log.info("\(type(of: self)): Deinited")
-    }
-    
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        log.info("\(type(of: self)): Received Memory Warning")
-    }
-    
-    func setupUI() {
+    func setupUI(){
         
     }
     
@@ -52,7 +40,9 @@ class ViewController<V: ViewModel, N: Navigator>: UIViewController {
             if loading {
                 let Indicator = MBProgressHUD.showAdded(to: self.view, animated: true)
                 Indicator.label.text = "Loading..."
-                Indicator.isUserInteractionEnabled = false
+                Indicator.isUserInteractionEnabled = true
+                Indicator.backgroundView.style = .solidColor
+                Indicator.backgroundView.color = UIColor.black.withAlphaComponent(0.3)
                 Indicator.show(animated: true)
             } else {
                 MBProgressHUD.hide(for: self.view, animated: true)

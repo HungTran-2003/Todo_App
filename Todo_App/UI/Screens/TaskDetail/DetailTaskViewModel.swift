@@ -78,7 +78,6 @@ class DetailTaskViewModel: ViewModel {
                     self.navigator.showAlert(title: "Success", message: "Added Task successfully") { _ in
                         self.navigator.backHome()
                     }
-                    self.navigator.backHome()
                 }
             } catch {
                 DispatchQueue.main.async {

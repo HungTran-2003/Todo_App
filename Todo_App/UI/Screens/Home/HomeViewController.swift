@@ -1,15 +1,16 @@
 //
-//  ViewController.swift
+//  test.swift
 //  Todo_App
 //
-//  Created by admin on 13/10/25.
+//  Created by admin on 30/10/25.
 //
 
-import RxCocoa
-import RxDataSources
-import RxSwift
-import SwipeCellKit
 import UIKit
+import RxSwift
+import RxCocoa
+import RxRelay
+import RxDataSources
+import SwipeCellKit
 
 class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
 
@@ -19,12 +20,11 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
     
     @IBOutlet weak var emptyDataLabel: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bindCollectionView()
-        binUi()
+        bindUi()
         bindViewModel()
     }
 
@@ -37,6 +37,8 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
         )
 
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        collectionView.backgroundColor = .clear
 
         if let layout = collectionView.collectionViewLayout
             as? UICollectionViewFlowLayout
@@ -47,8 +49,6 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
             )
         }
 
-        collectionView.backgroundColor = .clear
-
         viewModel.currentDate
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] date in
@@ -56,17 +56,28 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
                 self.setupTitleNavigation(date: date)
             })
             .disposed(by: disposeBag)
+        
+        collectionView.register(
+            UINib(nibName: "TodoItemViewController", bundle: nil),
+            forCellWithReuseIdentifier: "TodoItemViewController"
+        )
+        
+        collectionView.register(
+            UINib(nibName: "HeaderCellViewController", bundle: nil),
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "HeaderCellViewController"
+        )
 
     }
 
     func bindCollectionView() {
-        let dataSource = RxCollectionViewSectionedReloadDataSource<TaskSection>(
+        let dataSource = RxCollectionViewSectionedReloadDataSource<TodoSection>(
             configureCell: { _, collectionView, indexPath, cellViewModel in
                 let cell =
                     collectionView.dequeueReusableCell(
-                        withReuseIdentifier: "TodoItem",
+                        withReuseIdentifier: "TodoItemViewController",
                         for: indexPath
-                    ) as! TodoItem
+                    ) as! TodoItemViewController
 
                 let isFirst = indexPath.row == 0
                 let isLast =
@@ -106,12 +117,12 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
                 let header =
                     collectionView.dequeueReusableSupplementaryView(
                         ofKind: kind,
-                        withReuseIdentifier: "HeaderLisst",
+                        withReuseIdentifier: "HeaderCellViewController",
                         for: indexPath
-                    ) as! HeaderList
+                    ) as! HeaderCellViewController
                 let title = dataSource.sectionModels[indexPath.section].header
                 header.isHidden = title == nil
-                header.headerTabel.text = title ?? ""
+                header.titleSectionLabel.text = title ?? ""
                 return header
             }
         )
@@ -148,7 +159,7 @@ class HomeViewController: ViewController<HomeViewModel,HomeNavigator> {
 
     }
 
-    func binUi() {
+    func bindUi() {
         addButton.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in

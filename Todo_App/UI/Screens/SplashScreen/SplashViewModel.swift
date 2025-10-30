@@ -47,6 +47,7 @@ class SplashViewModel : ViewModel {
                     self.status.accept("Success")
                 }
             } catch {
+                print(error.localizedDescription)
                 self.navigator.showErrorAlert()
             }
             

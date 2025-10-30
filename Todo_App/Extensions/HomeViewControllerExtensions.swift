@@ -53,6 +53,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             return .zero
         }
         return section == 0
-            ? .zero : CGSize(width: collectionView.frame.width, height: 80)
+            ? .zero : CGSize(width: collectionView.frame.width - 32, height: 68)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width - 32, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                            layout collectionViewLayout: UICollectionViewLayout,
+                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
     }
 }

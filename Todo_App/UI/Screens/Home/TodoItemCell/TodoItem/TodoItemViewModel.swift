@@ -40,11 +40,11 @@ class TodoItemViewModel: CellViewModel {
     func nameCategoryImg(category: Categorys) -> String? {
         switch category {
         case .EVENT:
-            return "Event"
+            return "event"
         case .GOAL:
-            return "Goal"
+            return "goal"
         case .TASK:
-            return "Task"
+            return "task"
         }
     }
 
