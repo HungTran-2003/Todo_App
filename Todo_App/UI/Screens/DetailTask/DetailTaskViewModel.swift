@@ -11,7 +11,7 @@ import Foundation
 class DetailTaskViewModel: ViewModel {
     private let navigator: DetailTaskNavigator
     
-    let categorys = [Categorys.TASK, Categorys.EVENT, Categorys.GOAL]
+    let categorys = [Categories.task, Categories.event, Categories.goal]
     
     private(set) var taskVM: TodoItemViewModel?
     private(set) var indexPath: IndexPath?
@@ -74,6 +74,7 @@ class DetailTaskViewModel: ViewModel {
             do {
                 let data = try await TaskService.share.addTask(task: task)
                 DispatchQueue.main.async {
+                    self.isLoading.accept(false)
                     self.dataOutput.accept(data)
                     self.navigator.showAlert(title: "Success", message: "Added Task successfully") { _ in
                         self.navigator.backHome()
@@ -81,6 +82,7 @@ class DetailTaskViewModel: ViewModel {
                 }
             } catch {
                 DispatchQueue.main.async {
+                    self.isLoading.accept(false)
                     self.navigator.showErrorAlert()
                 }
             }

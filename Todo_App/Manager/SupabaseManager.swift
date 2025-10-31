@@ -10,13 +10,18 @@ import Supabase
 
 class SupabaseManager {
     static let shared = SupabaseManager()
+    
+    private final let supabaseKey = Bundle.main.object(forInfoDictionaryKey: "SupaBase_KEY") as? String ?? ""
+    private final let supabaseURL = Bundle.main.object(forInfoDictionaryKey: "SupaBase_URL") as? String ?? ""
 
     let client: SupabaseClient
 
     private init() {
+        print(supabaseURL)
+        
         self.client = SupabaseClient(
-            supabaseURL: URL(string: "https://imejzeuyhsoqpibieyjh.supabase.co")!,
-            supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltZWp6ZXV5aHNvcXBpYmlleWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NzMyMjEsImV4cCI6MjA3NjE0OTIyMX0.PEyDllRl2SzyGqIWXrczmwgainWQuakdZYJCa_OUrB4"
+            supabaseURL: URL(string: "https://\(supabaseURL)")!,
+            supabaseKey: supabaseKey
         )
     }
 }

@@ -72,7 +72,7 @@
                 <constraint firstItem="lCx-7V-sSn" firstAttribute="leading" secondItem="7hM-4q-3l1" secondAttribute="trailing" constant="24" id="pvi-Re-WmH"/>
             </constraints>
             <connections>
-                <outlet property="TaskStackView" destination="7hM-4q-3l1" id="Rei-AB-pwU"/>
+                <outlet property="TaskStackView" destination="7hM-4q-3l1" id="NFv-3i-12o"/>
                 <outlet property="categoryIV" destination="mz6-ZQ-Gde" id="Abl-lr-mKF"/>
                 <outlet property="checkBoxBT" destination="lCx-7V-sSn" id="thg-jk-jRx"/>
                 <outlet property="timeLabel" destination="aZb-wL-d3J" id="7fS-1n-YAy"/>

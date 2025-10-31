@@ -61,7 +61,7 @@ class ViewController<V: ViewModel, N: Navigator>: UIViewController {
     }
     
     func hideLeftButton() {
-        navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.hidesBackButton = true
     }
     
     @objc func leftButtonTapped(sender: UIBarButtonItem) {

@@ -1,30 +1,27 @@
 //
-//  AddTaskViewCL.swift
+//  test.swift
 //  Todo_App
 //
-//  Created by admin on 14/10/25.
+//  Created by admin on 30/10/25.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
 
-class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskNavigator> {
-    
-    @IBOutlet weak var titleTextF: UITextField!
+class DetailTaskViewController: ViewController<DetailTaskViewModel, DetailTaskNavigator> {
+
+    @IBOutlet weak var titleTextField: UITextField!
     
     @IBOutlet weak var TaskBT: UIButton!
-    @IBOutlet weak var EventBT: UIButton!
     @IBOutlet weak var GoalBT: UIButton!
-    
+    @IBOutlet weak var EventBT: UIButton!
     
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var noteTextView: UITextView!
     
     @IBOutlet weak var saveButton: UIButton!
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +30,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
     override func setupUI() {
         navigationItem.title = "Add New Task"
         
-        [titleTextF, dateTextField, timeTextField].forEach {
+        [titleTextField, dateTextField, timeTextField].forEach {
                 setUpTextField(textfield: $0)
         }
         self.showLeftButton()
@@ -41,9 +38,11 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
         setupDatePicker()
         setupTimePicker()
         bindUI()
+        bindViewModel()
         
         guard let taskVM = viewModel.taskVM else {return}
         setupUiTask(task: taskVM.item)
+        
     }
     
     func bindUI() {
@@ -59,14 +58,14 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
             .subscribe(onNext: { [weak self] in self?.updateCategory(tag: 3) })
             .disposed(by: disposeBag)
         
-        titleTextF.rx.text.orEmpty
+        titleTextField.rx.text.orEmpty
             .bind(to: viewModel.title)
             .disposed(by: disposeBag)
         
         noteTextView.rx.didBeginEditing
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                if noteTextView.text == "Notes" {
+                if viewModel.notes.value.isEmpty {
                     noteTextView.text = ""
                     noteTextView.textColor = .label
                 }
@@ -76,6 +75,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 if noteTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    viewModel.notes.accept(noteTextView.text)
                     noteTextView.text = "Notes"
                     noteTextView.textColor = .lightGray
                 } else {
@@ -95,6 +95,11 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
                 viewModel.updateTask(task: task)
             })
             .disposed(by: disposeBag)
+        
+    }
+    
+    private func bindViewModel(){
+        viewModel.isLoading.bind(to: self.isLoading).disposed(by: disposeBag)
     }
 
     private func updateCategory(tag: Int) {
@@ -105,7 +110,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
     }
 
     private func updateUiButton(button: UIButton, tag: Int) {
-        button.configuration?.baseBackgroundColor = (tag == viewModel.category.value) ? .black : .white
+        button.layer.borderColor = (tag == viewModel.category.value) ? UIColor.black.cgColor : UIColor.white.cgColor
     }
     
     func setupDatePicker(initialDate: Date? = nil) {
@@ -115,7 +120,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
         dateTextField.inputView = datePicker
         
         if let initial = initialDate {
-                datePicker.date = initial             
+                datePicker.date = initial
                 dateTextField.text = formatDate(date: initial)
             }
         
@@ -166,7 +171,7 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
         noteTextView.text = note
         print(note)
         
-        titleTextF.text = task.title
+        titleTextField.text = task.title
         navigationItem.title = "Detail Task"
         print(task.title)
         
@@ -181,4 +186,5 @@ class DetailTaskViewController : ViewController<DetailTaskViewModel, DetailTaskN
         
         viewModel.notes.accept(note)
     }
+
 }

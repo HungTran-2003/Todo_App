@@ -11,8 +11,8 @@ class KeychainManager {
     
     static let share = KeychainManager()
     
-    let key_refreshToken = "com.newWave.refresh_token"
-    let key_accessToken = "com.newWave.access_toke"
+    let key_refreshToken = Bundle.main.object(forInfoDictionaryKey: "key_refreshToken") as? String ?? ""
+    let key_accessToken = Bundle.main.object(forInfoDictionaryKey: "key_accessToken") as? String ?? ""
     
     private init() {}
     

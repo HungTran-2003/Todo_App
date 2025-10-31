@@ -15,7 +15,7 @@ class HomeNavigator: Navigator {
     let task = BehaviorRelay<Tasks?>(value: nil)
     
     func pushTaskDetail(taskVM: TodoItemViewModel? = nil, indexPath: IndexPath? = nil) {
-        let viewController = storyBoard.instantiateViewController(identifier: "DetailTaskScreen") as! DetailTaskViewController
+        let viewController = DetailTaskViewController(nibName: "DetailTaskViewController", bundle: nil)
         let navigator = DetailTaskNavigator(with: viewController)
         let viewModel = DetailTaskViewModel(navigator: navigator)
         viewController.viewModel = viewModel

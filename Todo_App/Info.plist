@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SupaBase_KEY</key>
+	<string>${SupaBase_KEY}</string>
+	<key>SupaBase_URL</key>
+	<string>${SupaBase_URL}</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-VariableFont_opsz,wght.ttf</string>
@@ -25,5 +29,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>key_accessToken</key>
+	<string>${key_accessToken}</string>
+	<key>key_refreshToken</key>
+	<string>${key_refreshToken}</string>
 </dict>
 </plist>

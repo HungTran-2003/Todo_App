@@ -122,6 +122,7 @@ class TodoItemViewController: CollectionViewCell {
                 attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
             )
         }
+        categoryIV.alpha = 0.5
         TaskStackView.alpha = 0.5
     }
 

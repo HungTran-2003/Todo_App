@@ -14,7 +14,7 @@ struct Tasks: Codable {
     let dueDate: Date
     let notes: String?
     let isComplete: Bool
-    let category: Categorys
+    let category: Categories
     let userId: String?
 //    let createdAt: Date
 //    let completedAt: Date?
@@ -31,7 +31,7 @@ struct Tasks: Codable {
 //        case completedAt = "completed_at"
     }
     
-    init(id: Int?, title: String, dueDate: Date, notes: String?, isComplete: Bool, category: Categorys) {
+    init(id: Int?, title: String, dueDate: Date, notes: String?, isComplete: Bool, category: Categories) {
         self.id = id
         self.title = title
         self.dueDate = dueDate

@@ -13,8 +13,6 @@ class ViewModel : NSObject {
     let disposeBag = DisposeBag()
     
     private let _navigator: Navigator
-
-    let loadingIndicator = ActivityIndicator()
     
     init(navigator: Navigator) {
         self._navigator = navigator

@@ -37,13 +37,13 @@ class TodoItemViewModel: CellViewModel {
         return timeFormat.string(from: date)
     }
 
-    func nameCategoryImg(category: Categorys) -> String? {
+    func nameCategoryImg(category: Categories) -> String? {
         switch category {
-        case .EVENT:
+        case .event:
             return "event"
-        case .GOAL:
+        case .goal:
             return "goal"
-        case .TASK:
+        case .task:
             return "task"
         }
     }
